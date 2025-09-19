@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useEffect, useState } from "react"
-import { ChevronLeft, ChevronRight, User, Clock, CalendarIcon } from "lucide-react"
+import { ChevronLeft, ChevronRight, User, Clock, CalendarIcon, Menu, X } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -29,6 +29,7 @@ export default function HomePage() {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [profilePicture, setProfilePicture] = useState<string | null>(null)
   const [isClient, setIsClient] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const scrollToSection = (sectionId: string) => {
     const maxScroll = window.innerHeight * 4
@@ -206,11 +207,15 @@ export default function HomePage() {
   }
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % Math.max(1, classes.length - 4))
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768
+    const maxSlides = isMobile ? classes.length : Math.max(1, classes.length - 4)
+    setCurrentSlide((prev) => (prev + 1) % maxSlides)
   }
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + Math.max(1, classes.length - 4)) % Math.max(1, classes.length - 4))
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768
+    const maxSlides = isMobile ? classes.length : Math.max(1, classes.length - 4)
+    setCurrentSlide((prev) => (prev - 1 + maxSlides) % maxSlides)
   }
 
   const getDaysInMonth = (date: Date) => {
@@ -272,8 +277,17 @@ export default function HomePage() {
         className="fixed top-0 left-0 right-0 z-50 transition-transform duration-300 translate-y-0"
         style={{ backgroundColor: "#EBE9E4" }}
       >
-        <div className="flex justify-center items-center py-4 border-b border-gray-200 relative">
-          <div className="flex space-x-8 text-sm font-medium font-shippori-antique">
+        <div className="flex justify-between items-center py-4 px-4 border-b border-gray-200 relative">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden p-2 text-gray-800 hover:text-gray-600 transition-colors"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex space-x-8 text-sm font-medium font-shippori-antique">
             <button onClick={() => scrollToSection('pricing')} className="text-gray-800 hover:text-gray-600 transition-colors">
               packages
             </button>
@@ -292,7 +306,7 @@ export default function HomePage() {
           </div>
           
           {/* Profile Icon */}
-          <a href="/profile" className="absolute right-8 p-2 text-gray-800 hover:text-gray-600 transition-colors">
+          <a href="/profile" className="p-2 text-gray-800 hover:text-gray-600 transition-colors">
             {isClient && profilePicture ? (
               <img 
                 src={profilePicture} 
@@ -304,13 +318,64 @@ export default function HomePage() {
             )}
           </a>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-b border-gray-200 shadow-lg">
+            <div className="px-4 py-2 space-y-2">
+              <button 
+                onClick={() => {
+                  scrollToSection('pricing')
+                  setIsMobileMenuOpen(false)
+                }} 
+                className="block w-full text-left py-2 text-gray-800 hover:text-gray-600 transition-colors font-shippori-antique"
+              >
+                packages
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('classes')
+                  setIsMobileMenuOpen(false)
+                }} 
+                className="block w-full text-left py-2 text-gray-800 hover:text-gray-600 transition-colors font-shippori-antique"
+              >
+                classes
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('schedule')
+                  setIsMobileMenuOpen(false)
+                }} 
+                className="block w-full text-left py-2 text-gray-800 hover:text-gray-600 transition-colors font-shippori-antique"
+              >
+                schedule
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('schedule')
+                  setIsMobileMenuOpen(false)
+                }} 
+                className="block w-full text-left py-2 text-gray-800 hover:text-gray-600 transition-colors font-shippori-antique"
+              >
+                book now
+              </button>
+              <a 
+                href="/signin" 
+                className="block w-full text-left py-2 text-gray-800 hover:text-gray-600 transition-colors font-shippori-antique"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                sign in
+              </a>
+            </div>
+          </div>
+        )}
       </nav>
 
       <div className="h-screen"></div>
 
       <main className="min-h-screen fixed top-0 left-0 right-0 z-10" style={{ backgroundColor: "#EBE9E4" }}>
         <nav className="absolute top-0 left-0 right-0 z-10 bg-transparent">
-          <div className="flex justify-center items-center py-6 relative">
+          <div className="hidden md:flex justify-center items-center py-6 relative">
             <div className="flex space-x-8 text-sm font-medium">
               <button onClick={() => scrollToSection('pricing')} className="text-gray-800 hover:text-gray-600 transition-colors">
                 PACKAGES
@@ -345,10 +410,10 @@ export default function HomePage() {
         </nav>
 
         <div className="absolute left-1/2 transform -translate-x-1/2" style={{ top: "86px" }}>
-          <img src="/pics/image-removebg-preview (1).png" alt="Body Lab Logo" className="h-auto max-w-xs" />
+          <img src="/pics/image-removebg-preview (1).png" alt="Body Lab Logo" className="h-auto max-w-xs md:max-w-sm" />
         </div>
 
-        <div className="absolute left-0 right-0 flex gap-4 px-4" style={{ top: "240px", bottom: "0" }}>
+        <div className="absolute left-0 right-0 flex flex-col md:flex-row gap-4 px-4" style={{ top: "240px", bottom: "0" }}>
           <div className="flex-1 bg-gray-300 rounded-lg overflow-hidden shadow-lg">
             <img
               src="/fitness-workout-gym-equipment.jpg"
@@ -376,33 +441,37 @@ export default function HomePage() {
         }}
       >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-gray-800 lowercase tracking-widest text-8xl mb-8">our classes</h2>
-            <p className="text-lg italic text-gray-800 font-serif">Transform your body, elevate your energy.</p>
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="font-serif text-gray-800 lowercase tracking-widest text-4xl md:text-6xl lg:text-8xl mb-4 md:mb-8">our classes</h2>
+            <p className="text-base md:text-lg italic text-gray-800 font-serif">Transform your body, elevate your energy.</p>
           </div>
 
           <div className="relative">
             <button
               onClick={prevSlide}
-              className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-16 h-16 rounded-full border-2 border-white bg-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+              className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-white bg-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
             >
-              <ChevronLeft size={24} className="text-white" />
+              <ChevronLeft size={20} className="text-white md:hidden" />
+              <ChevronLeft size={24} className="text-white hidden md:block" />
             </button>
 
             <button
               onClick={nextSlide}
-              className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-16 h-16 rounded-full border-2 border-white bg-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+              className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-white bg-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
             >
-              <ChevronRight size={24} className="text-white" />
+              <ChevronRight size={20} className="text-white md:hidden" />
+              <ChevronRight size={24} className="text-white hidden md:block" />
             </button>
 
             <div className="overflow-hidden px-2">
               <div
-                className="flex transition-transform duration-300 ease-in-out gap-6"
-                style={{ transform: `translateX(-${currentSlide * (100 / 4)}%)` }}
+                className="flex transition-transform duration-300 ease-in-out gap-4 md:gap-6"
+                style={{ 
+                  transform: `translateX(-${currentSlide * (typeof window !== "undefined" && window.innerWidth < 768 ? 100 : 25)}%)` 
+                }}
               >
                 {classes.map((classItem, index) => (
-                  <div key={index} className="flex-none w-1/4">
+                  <div key={index} className="flex-none w-full md:w-1/4">
                     <div className="bg-white overflow-hidden border border-gray-800">
                       <div className="aspect-[3/4] bg-gray-200">
                         <img
@@ -433,25 +502,25 @@ export default function HomePage() {
           transition: "transform 0.1s ease-out",
         }}
       >
-        <div className="container mx-auto px-8">
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-gray-800 lowercase tracking-widest text-8xl mb-8">schedule</h2>
-            <p className="text-lg italic text-gray-800 font-serif">Book your perfect class time.</p>
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="font-serif text-gray-800 lowercase tracking-widest text-4xl md:text-6xl lg:text-8xl mb-4 md:mb-8">schedule</h2>
+            <p className="text-base md:text-lg italic text-gray-800 font-serif">Book your perfect class time.</p>
           </div>
 
           {/* Two Column Layout - Large Cards */}
-          <div className="flex gap-10 max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 max-w-7xl mx-auto">
             {/* Left Panel - Large Calendar */}
             <div className="flex-1">
-              <div className="bg-white rounded-lg p-8 shadow-lg h-[600px]">
-                <div className="flex items-center justify-between mb-6">
+              <div className="bg-white rounded-lg p-4 md:p-8 shadow-lg h-[500px] md:h-[600px]">
+                <div className="flex items-center justify-between mb-4 md:mb-6">
                   <button
                     onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
                     className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                   >
                     <ChevronLeft size={20} />
                   </button>
-                  <h4 className="text-xl font-medium text-gray-800 font-shippori-antique">
+                  <h4 className="text-lg md:text-xl font-medium text-gray-800 font-shippori-antique">
                     {currentMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
                   </h4>
                   <button
@@ -462,9 +531,9 @@ export default function HomePage() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-7 gap-1 mb-3">
+                <div className="grid grid-cols-7 gap-1 mb-2 md:mb-3">
                   {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-                    <div key={day} className="text-center text-sm font-medium text-gray-600 py-3 font-shippori-antique">
+                    <div key={day} className="text-center text-xs md:text-sm font-medium text-gray-600 py-2 md:py-3 font-shippori-antique">
                       {day}
                     </div>
                   ))}
@@ -476,11 +545,11 @@ export default function HomePage() {
 
             {/* Right Panel - Large Booking Details */}
             <div className="flex-1">
-              <div className="bg-white rounded-lg p-8 shadow-lg h-[600px]">
-                <h3 className="text-xl font-semibold text-gray-800 mb-6 font-shippori-antique">Booking Details</h3>
+              <div className="bg-white rounded-lg p-4 md:p-8 shadow-lg h-[500px] md:h-[600px]">
+                <h3 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 md:mb-6 font-shippori-antique">Booking Details</h3>
                 
                 {/* Lesson Details */}
-                <div className="space-y-4 mb-6">
+                <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
                   <div className="text-sm text-gray-600 font-shippori-antique">
                     <div className="font-medium text-gray-800 text-base mb-2 font-shippori-antique">Private Yoga Lesson</div>
                     <div className="py-1 font-shippori-antique">11 March 2022, 15:30</div>
@@ -491,7 +560,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Time Selection */}
-                <div className="mb-6">
+                <div className="mb-4 md:mb-6">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-sm font-medium text-gray-800 font-shippori-antique">Time</span>
                   </div>
@@ -499,7 +568,7 @@ export default function HomePage() {
                     {["13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"].map((time) => (
                       <button
                         key={time}
-                        className="border border-gray-300 rounded-lg px-3 py-2 text-xs font-medium text-gray-800 hover:bg-blue-50 hover:border-blue-300 transition-colors font-shippori-antique"
+                        className="border border-gray-300 rounded-lg px-2 md:px-3 py-2 text-xs font-medium text-gray-800 hover:bg-blue-50 hover:border-blue-300 transition-colors font-shippori-antique"
                       >
                         {time}
                       </button>
@@ -509,7 +578,7 @@ export default function HomePage() {
 
                 {/* Book Button */}
                 <div className="mt-auto">
-                  <button className="w-full bg-gray-800 text-white py-4 rounded-lg font-medium hover:bg-gray-700 transition-colors font-shippori-antique text-lg">
+                  <button className="w-full bg-gray-800 text-white py-3 md:py-4 rounded-lg font-medium hover:bg-gray-700 transition-colors font-shippori-antique text-base md:text-lg">
                     Request to Book
                   </button>
                 </div>
@@ -528,20 +597,20 @@ export default function HomePage() {
           transition: "transform 0.1s ease-out",
         }}
       >
-        <div className="container mx-auto px-8">
-          <div className="text-center mb-20">
-            <h2 className="font-serif text-gray-800 lowercase tracking-widest text-8xl mb-8">packages</h2>
-            <p className="text-lg italic text-gray-800 font-serif">Choose the perfect plan for your wellness journey.</p>
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="font-serif text-gray-800 lowercase tracking-widest text-4xl md:text-6xl lg:text-8xl mb-4 md:mb-8">packages</h2>
+            <p className="text-base md:text-lg italic text-gray-800 font-serif">Choose the perfect plan for your wellness journey.</p>
           </div>
 
           {/* Pricing Cards */}
-          <div className="flex gap-8 max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 max-w-6xl mx-auto">
             {/* Basic Plan */}
             <div className="flex-1">
-              <div className="bg-white rounded-lg p-8 shadow-lg h-[500px]">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-6">Basic</h3>
-                <div className="text-4xl font-bold text-gray-800 mb-6">IDR 150k</div>
-                <div className="text-sm text-gray-600 font-shippori-antique mb-8">
+              <div className="bg-white rounded-lg p-6 md:p-8 shadow-lg h-auto lg:h-[500px]">
+                <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6">Basic</h3>
+                <div className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-6">IDR 150k</div>
+                <div className="text-sm text-gray-600 font-shippori-antique mb-6 md:mb-8">
                   <div className="py-2">• 4 classes per month</div>
                   <div className="py-2">• Mat Pilates only</div>
                   <div className="py-2">• Group sessions</div>
@@ -555,13 +624,13 @@ export default function HomePage() {
 
             {/* Premium Plan */}
             <div className="flex-1">
-              <div className="bg-white rounded-lg p-8 shadow-lg h-[500px] border-2 border-gray-800">
+              <div className="bg-white rounded-lg p-6 md:p-8 shadow-lg h-auto lg:h-[500px] border-2 border-gray-800">
                 <div className="text-center mb-4">
                   <span className="bg-gray-800 text-white px-4 py-1 rounded-full text-sm font-shippori-antique">Most Popular</span>
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-6">Premium</h3>
-                <div className="text-4xl font-bold text-gray-800 mb-6">IDR 250k</div>
-                <div className="text-sm text-gray-600 font-shippori-antique mb-8">
+                <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6">Premium</h3>
+                <div className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-6">IDR 250k</div>
+                <div className="text-sm text-gray-600 font-shippori-antique mb-6 md:mb-8">
                   <div className="py-2">• 8 classes per month</div>
                   <div className="py-2">• All class types</div>
                   <div className="py-2">• Reformer access</div>
@@ -575,10 +644,10 @@ export default function HomePage() {
 
             {/* Elite Plan */}
             <div className="flex-1">
-              <div className="bg-white rounded-lg p-8 shadow-lg h-[500px]">
-                <h3 className="text-2xl font-semibold text-gray-800 mb-6">Elite</h3>
-                <div className="text-4xl font-bold text-gray-800 mb-6">IDR 400k</div>
-                <div className="text-sm text-gray-600 font-shippori-antique mb-8">
+              <div className="bg-white rounded-lg p-6 md:p-8 shadow-lg h-auto lg:h-[500px]">
+                <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6">Elite</h3>
+                <div className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 md:mb-6">IDR 400k</div>
+                <div className="text-sm text-gray-600 font-shippori-antique mb-6 md:mb-8">
                   <div className="py-2">• Unlimited classes</div>
                   <div className="py-2">• Private sessions</div>
                   <div className="py-2">• Personal trainer</div>
@@ -602,11 +671,11 @@ export default function HomePage() {
           transition: "transform 0.1s ease-out",
         }}
       >
-        <div className="container mx-auto px-8">
-          <div className="flex gap-12 max-w-6xl mx-auto">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12 max-w-6xl mx-auto">
             {/* Left Column - Services */}
             <div className="flex-1">
-              <h3 className="text-2xl font-serif text-white italic mb-6">Services</h3>
+              <h3 className="text-xl md:text-2xl font-serif text-white italic mb-4 md:mb-6">Services</h3>
               <div className="space-y-3">
                 <a href="#" className="block text-white hover:text-gray-300 transition-colors font-shippori-antique">Mat Pilates</a>
                 <a href="#" className="block text-white hover:text-gray-300 transition-colors font-shippori-antique">Reformer Classes</a>
@@ -617,7 +686,7 @@ export default function HomePage() {
 
             {/* Middle Column - Body Lab */}
             <div className="flex-1">
-              <h3 className="text-2xl font-serif text-white italic mb-6">Body Lab</h3>
+              <h3 className="text-xl md:text-2xl font-serif text-white italic mb-4 md:mb-6">Body Lab</h3>
               <div className="space-y-3">
                 <a href="#" className="block text-white hover:text-gray-300 transition-colors font-shippori-antique underline">Home</a>
                 <a href="#" className="block text-white hover:text-gray-300 transition-colors font-shippori-antique underline">About</a>
@@ -628,8 +697,8 @@ export default function HomePage() {
 
             {/* Right Column - Newsletter */}
             <div className="flex-1">
-              <h3 className="text-2xl font-serif text-white mb-6">10% off? Subscribe!</h3>
-              <p className="text-white mb-6 font-shippori-antique">
+              <h3 className="text-xl md:text-2xl font-serif text-white mb-4 md:mb-6">10% off? Subscribe!</h3>
+              <p className="text-white mb-4 md:mb-6 font-shippori-antique text-sm md:text-base">
                 Join our mailing list and get 10% off your first class, plus stay updated on new classes, promotions, events and wellness tips.
               </p>
               
@@ -637,7 +706,7 @@ export default function HomePage() {
                 <input
                   type="email"
                   placeholder="Enter your email here"
-                  className="w-full bg-transparent border-b border-white text-white placeholder-gray-400 py-2 focus:outline-none focus:border-gray-300 font-shippori-antique"
+                  className="w-full bg-transparent border-b border-white text-white placeholder-gray-400 py-2 focus:outline-none focus:border-gray-300 font-shippori-antique text-sm md:text-base"
                 />
                 
                 <div className="flex items-center space-x-3">
@@ -646,7 +715,7 @@ export default function HomePage() {
                     id="newsletter"
                     className="w-4 h-4 text-gray-800 bg-transparent border-white rounded focus:ring-gray-300"
                   />
-                  <label htmlFor="newsletter" className="text-white text-sm font-shippori-antique">
+                  <label htmlFor="newsletter" className="text-white text-xs md:text-sm font-shippori-antique">
                     Yes, I want to be part of this mailing list.
                   </label>
                 </div>

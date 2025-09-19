@@ -201,10 +201,11 @@ export default function ProfilePage() {
           <div className="flex justify-between items-center py-4">
             <Link href="/" className="text-gray-800 hover:text-gray-600 transition-colors flex items-center space-x-2 font-shippori-antique">
               <ChevronLeft size={20} />
-              <span>Back to Home</span>
+              <span className="hidden sm:inline">Back to Home</span>
+              <span className="sm:hidden">Back</span>
             </Link>
             <div className="flex items-center space-x-4">
-              <img src="/pics/image-removebg-preview (1).png" alt="Body Lab Logo" className="h-8" />
+              <img src="/pics/image-removebg-preview (1).png" alt="Body Lab Logo" className="h-6 sm:h-8" />
             </div>
           </div>
         </div>
@@ -212,28 +213,29 @@ export default function ProfilePage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 font-shippori-antique">Profile Dashboard</h1>
-          <p className="text-gray-600 font-shippori-antique mt-2">Manage your account and view your activity</p>
+        <div className="mb-6 md:mb-8">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 font-shippori-antique">Profile Dashboard</h1>
+          <p className="text-gray-600 font-shippori-antique mt-2 text-sm md:text-base">Manage your account and view your activity</p>
         </div>
 
         {/* Tab Navigation */}
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
           <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
+            <nav className="-mb-px flex space-x-4 md:space-x-8 overflow-x-auto">
               {tabs.map((tab) => {
                 const Icon = tab.icon
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm font-shippori-antique transition-colors ${
+                    className={`flex items-center space-x-1 md:space-x-2 py-3 md:py-4 px-1 border-b-2 font-medium text-xs md:text-sm font-shippori-antique transition-colors whitespace-nowrap ${
                       activeTab === tab.id
                         ? "border-gray-800 text-gray-800"
                         : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
                     }`}
                   >
-                    <Icon size={20} />
+                    <Icon size={16} className="md:hidden" />
+                    <Icon size={20} className="hidden md:block" />
                     <span>{tab.label}</span>
                   </button>
                 )
@@ -246,21 +248,22 @@ export default function ProfilePage() {
         {activeTab === "overview" && (
           <div className="space-y-8">
             {/* Account Details */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-800 font-shippori-antique">Account Details</h2>
-                <button className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors font-shippori-antique">
-                  <Edit size={16} />
+            <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
+              <div className="flex items-center justify-between mb-4 md:mb-6">
+                <h2 className="text-lg md:text-xl font-semibold text-gray-800 font-shippori-antique">Account Details</h2>
+                <button className="flex items-center space-x-1 md:space-x-2 text-gray-600 hover:text-gray-800 transition-colors font-shippori-antique text-sm">
+                  <Edit size={14} className="md:hidden" />
+                  <Edit size={16} className="hidden md:block" />
                   <span>Edit</span>
                 </button>
               </div>
               
               {/* Profile Picture Section */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-4 font-shippori-antique">Profile Picture</label>
-                <div className="flex items-center space-x-6">
+              <div className="mb-6 md:mb-8">
+                <label className="block text-sm font-medium text-gray-700 mb-3 md:mb-4 font-shippori-antique">Profile Picture</label>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
                   <div className="relative">
-                    <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
                       {userData.profilePicture ? (
                         <img 
                           src={userData.profilePicture} 
@@ -268,15 +271,17 @@ export default function ProfilePage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <User size={32} className="text-gray-400" />
+                        <User size={28} className="text-gray-400 md:hidden" />
+                        <User size={32} className="text-gray-400 hidden md:block" />
                       )}
                     </div>
                     {userData.profilePicture && (
                       <button
                         onClick={handleRemoveProfilePicture}
-                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                        className="absolute -top-2 -right-2 w-5 h-5 md:w-6 md:h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
                       >
-                        <X size={14} />
+                        <X size={12} className="md:hidden" />
+                        <X size={14} className="hidden md:block" />
                       </button>
                     )}
                   </div>
@@ -290,9 +295,10 @@ export default function ProfilePage() {
                     />
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="flex items-center space-x-2 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors font-shippori-antique text-sm"
+                      className="flex items-center space-x-2 px-3 md:px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors font-shippori-antique text-xs md:text-sm"
                     >
-                      <Upload size={16} />
+                      <Upload size={14} className="md:hidden" />
+                      <Upload size={16} className="hidden md:block" />
                       <span>{userData.profilePicture ? 'Change Picture' : 'Upload Picture'}</span>
                     </button>
                     <p className="text-xs text-gray-500 font-shippori-antique">Max 5MB, JPG/PNG</p>
@@ -300,43 +306,44 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2 font-shippori-antique">Full Name</label>
-                  <p className="text-gray-800 font-shippori-antique">{userData.name}</p>
+                  <p className="text-gray-800 font-shippori-antique text-sm md:text-base">{userData.name}</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2 font-shippori-antique">Email</label>
-                  <p className="text-gray-800 font-shippori-antique">{userData.email}</p>
+                  <p className="text-gray-800 font-shippori-antique text-sm md:text-base break-all">{userData.email}</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2 font-shippori-antique">Phone Number</label>
-                  <p className="text-gray-800 font-shippori-antique">{userData.phone}</p>
+                  <p className="text-gray-800 font-shippori-antique text-sm md:text-base">{userData.phone}</p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2 font-shippori-antique">Member Since</label>
-                  <p className="text-gray-800 font-shippori-antique">{userData.memberSince}</p>
+                  <p className="text-gray-800 font-shippori-antique text-sm md:text-base">{userData.memberSince}</p>
                 </div>
               </div>
             </div>
 
             {/* Credits Overview */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-6 font-shippori-antique">Remaining Credits</h2>
+            <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4 md:mb-6 font-shippori-antique">Remaining Credits</h2>
               
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-4 sm:space-y-0">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
-                    <CreditCard className="text-white" size={24} />
+                  <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-800 rounded-full flex items-center justify-center">
+                    <CreditCard className="text-white" size={20} />
+                    <CreditCard className="text-white hidden md:block" size={24} />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-gray-800 font-shippori-antique">{userData.remainingCredits}</p>
-                    <p className="text-sm text-gray-600 font-shippori-antique">Credits Remaining</p>
+                    <p className="text-xl md:text-2xl font-bold text-gray-800 font-shippori-antique">{userData.remainingCredits}</p>
+                    <p className="text-xs md:text-sm text-gray-600 font-shippori-antique">Credits Remaining</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm text-gray-600 font-shippori-antique">Total Credits</p>
-                  <p className="text-lg font-semibold text-gray-800 font-shippori-antique">{userData.totalCredits}</p>
+                <div className="text-left sm:text-right">
+                  <p className="text-xs md:text-sm text-gray-600 font-shippori-antique">Total Credits</p>
+                  <p className="text-base md:text-lg font-semibold text-gray-800 font-shippori-antique">{userData.totalCredits}</p>
                 </div>
               </div>
 
@@ -348,40 +355,43 @@ export default function ProfilePage() {
                 ></div>
               </div>
               
-              <div className="mt-4 flex justify-between text-sm text-gray-600 font-shippori-antique">
+              <div className="mt-4 flex justify-between text-xs md:text-sm text-gray-600 font-shippori-antique">
                 <span>Used: {userData.totalCredits - userData.remainingCredits}</span>
                 <span>Remaining: {userData.remainingCredits}</span>
               </div>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
                 <div className="flex items-center space-x-3">
-                  <Calendar className="text-gray-600" size={24} />
+                  <Calendar className="text-gray-600" size={20} />
+                  <Calendar className="text-gray-600 hidden md:block" size={24} />
                   <div>
-                    <p className="text-2xl font-bold text-gray-800 font-shippori-antique">{bookingHistory.length}</p>
-                    <p className="text-sm text-gray-600 font-shippori-antique">Total Bookings</p>
+                    <p className="text-xl md:text-2xl font-bold text-gray-800 font-shippori-antique">{bookingHistory.length}</p>
+                    <p className="text-xs md:text-sm text-gray-600 font-shippori-antique">Total Bookings</p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
                 <div className="flex items-center space-x-3">
-                  <Receipt className="text-gray-600" size={24} />
+                  <Receipt className="text-gray-600" size={20} />
+                  <Receipt className="text-gray-600 hidden md:block" size={24} />
                   <div>
-                    <p className="text-2xl font-bold text-gray-800 font-shippori-antique">{transactionHistory.length}</p>
-                    <p className="text-sm text-gray-600 font-shippori-antique">Transactions</p>
+                    <p className="text-xl md:text-2xl font-bold text-gray-800 font-shippori-antique">{transactionHistory.length}</p>
+                    <p className="text-xs md:text-sm text-gray-600 font-shippori-antique">Transactions</p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white rounded-lg shadow-sm p-6">
+              <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 sm:col-span-2 lg:col-span-1">
                 <div className="flex items-center space-x-3">
-                  <CreditCard className="text-gray-600" size={24} />
+                  <CreditCard className="text-gray-600" size={20} />
+                  <CreditCard className="text-gray-600 hidden md:block" size={24} />
                   <div>
-                    <p className="text-2xl font-bold text-gray-800 font-shippori-antique">Premium</p>
-                    <p className="text-sm text-gray-600 font-shippori-antique">Current Plan</p>
+                    <p className="text-xl md:text-2xl font-bold text-gray-800 font-shippori-antique">Premium</p>
+                    <p className="text-xs md:text-sm text-gray-600 font-shippori-antique">Current Plan</p>
                   </div>
                 </div>
               </div>
@@ -391,17 +401,18 @@ export default function ProfilePage() {
 
         {activeTab === "bookings" && (
           <div className="bg-white rounded-lg shadow-sm">
-            <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-800 font-shippori-antique">Booking History</h2>
+            <div className="px-4 md:px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-3 sm:space-y-0">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800 font-shippori-antique">Booking History</h2>
               <button 
                 onClick={() => router.push('/#schedule')}
-                className="bg-gray-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors font-shippori-antique text-sm"
+                className="bg-gray-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors font-shippori-antique text-sm self-start sm:self-auto"
               >
                 Book
               </button>
             </div>
             
-            <div className="overflow-x-auto">
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -460,16 +471,67 @@ export default function ProfilePage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden">
+              {bookingHistory.map((booking) => (
+                <div key={booking.id} className="p-4 border-b border-gray-200 last:border-b-0">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-800 font-shippori-antique">{booking.class}</h3>
+                      <p className="text-xs text-gray-500 font-shippori-antique">{booking.id}</p>
+                    </div>
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full font-shippori-antique ${
+                      booking.status === 'Completed' 
+                        ? 'bg-green-100 text-green-800'
+                        : booking.status === 'Cancelled'
+                        ? 'bg-red-100 text-red-800'
+                        : 'bg-blue-100 text-blue-800'
+                    }`}>
+                      {booking.status}
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 font-shippori-antique">Date & Time:</span>
+                      <span className="text-gray-800 font-shippori-antique">{booking.date} {booking.time}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 font-shippori-antique">Instructor:</span>
+                      <span className="text-gray-800 font-shippori-antique">{booking.instructor}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 font-shippori-antique">Credits:</span>
+                      <span className="text-gray-800 font-shippori-antique">{booking.credits}</span>
+                    </div>
+                  </div>
+                  
+                  {booking.status === 'Upcoming' && (
+                    <div className="mt-3">
+                      <button
+                        onClick={() => handleCancelBooking(booking.id)}
+                        className="w-full inline-flex items-center justify-center px-3 py-2 border border-red-300 text-xs font-medium rounded-md text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors font-shippori-antique"
+                      >
+                        <X size={14} className="mr-1" />
+                        Cancel Booking
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
         {activeTab === "transactions" && (
           <div className="bg-white rounded-lg shadow-sm">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-xl font-semibold text-gray-800 font-shippori-antique">Transaction History</h2>
+            <div className="px-4 md:px-6 py-4 border-b border-gray-200">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800 font-shippori-antique">Transaction History</h2>
             </div>
             
-            <div className="overflow-x-auto">
+            {/* Desktop Table */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -515,6 +577,44 @@ export default function ProfilePage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden">
+              {transactionHistory.map((transaction) => (
+                <div key={transaction.id} className="p-4 border-b border-gray-200 last:border-b-0">
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-800 font-shippori-antique">{transaction.type}</h3>
+                      <p className="text-xs text-gray-500 font-shippori-antique">{transaction.id}</p>
+                    </div>
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full font-shippori-antique ${
+                      transaction.status === 'Completed' 
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {transaction.status}
+                    </span>
+                  </div>
+                  
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 font-shippori-antique">Date:</span>
+                      <span className="text-gray-800 font-shippori-antique">{transaction.date}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 font-shippori-antique">Description:</span>
+                      <span className="text-gray-800 font-shippori-antique text-right max-w-[60%]">{transaction.description}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600 font-shippori-antique">Amount:</span>
+                      <span className={`font-medium font-shippori-antique ${transaction.amount.startsWith('-') ? 'text-red-600' : 'text-green-600'}`}>
+                        {transaction.amount}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -522,29 +622,29 @@ export default function ProfilePage() {
       {/* Cancel Confirmation Dialog */}
       {showCancelDialog && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+          <div className="relative top-10 md:top-20 mx-auto p-4 md:p-5 border w-11/12 md:w-96 shadow-lg rounded-md bg-white">
             <div className="mt-3 text-center">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                <X className="h-6 w-6 text-red-600" />
+              <div className="mx-auto flex items-center justify-center h-10 w-10 md:h-12 md:w-12 rounded-full bg-red-100">
+                <X className="h-5 w-5 md:h-6 md:w-6 text-red-600" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900 font-shippori-antique mt-4">
+              <h3 className="text-base md:text-lg font-medium text-gray-900 font-shippori-antique mt-3 md:mt-4">
                 Cancel Booking
               </h3>
-              <div className="mt-2 px-7 py-3">
-                <p className="text-sm text-gray-500 font-shippori-antique">
+              <div className="mt-2 px-4 md:px-7 py-3">
+                <p className="text-xs md:text-sm text-gray-500 font-shippori-antique">
                   Are you sure you want to cancel this booking? Your credits will be refunded.
                 </p>
               </div>
-              <div className="items-center px-4 py-3">
+              <div className="items-center px-4 py-3 flex flex-col sm:flex-row gap-2 sm:gap-0 sm:justify-center">
                 <button
                   onClick={confirmCancelBooking}
-                  className="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md w-24 mr-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors font-shippori-antique"
+                  className="px-4 py-2 bg-red-600 text-white text-sm md:text-base font-medium rounded-md w-full sm:w-24 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors font-shippori-antique"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={cancelCancelBooking}
-                  className="px-4 py-2 bg-gray-300 text-gray-800 text-base font-medium rounded-md w-24 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors font-shippori-antique"
+                  className="px-4 py-2 bg-gray-300 text-gray-800 text-sm md:text-base font-medium rounded-md w-full sm:w-24 hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors font-shippori-antique"
                 >
                   Keep
                 </button>

@@ -31,18 +31,18 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#EBE9E4" }}>
+    <div className="min-h-screen flex flex-col items-center justify-center py-8 md:py-12 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#EBE9E4" }}>
 
-      <div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full space-y-6 md:space-y-8">
         <div className="text-center">
-          <img src="/pics/image-removebg-preview (1).png" alt="Body Lab Logo" className="mx-auto h-auto max-w-xs mb-8" />
+          <img src="/pics/image-removebg-preview (1).png" alt="Body Lab Logo" className="mx-auto h-auto max-w-xs mb-6 md:mb-8" />
         </div>
 
         {/* Toggle Buttons */}
-        <div className="flex mb-8 bg-white rounded-full p-1 shadow-sm">
+        <div className="flex mb-6 md:mb-8 bg-white rounded-full p-1 shadow-sm">
           <button
             onClick={() => setIsLogin(true)}
-            className={`flex-1 py-3 px-4 rounded-full font-medium font-shippori-antique transition-colors ${
+            className={`flex-1 py-2 md:py-3 px-3 md:px-4 rounded-full font-medium font-shippori-antique transition-colors text-sm md:text-base ${
               isLogin 
                 ? "bg-gray-800 text-white" 
                 : "text-gray-600 hover:text-gray-800"
@@ -52,7 +52,7 @@ export default function SignInPage() {
           </button>
           <button
             onClick={() => setIsLogin(false)}
-            className={`flex-1 py-3 px-4 rounded-full font-medium font-shippori-antique transition-colors ${
+            className={`flex-1 py-2 md:py-3 px-3 md:px-4 rounded-full font-medium font-shippori-antique transition-colors text-sm md:text-base ${
               !isLogin 
                 ? "bg-gray-800 text-white" 
                 : "text-gray-600 hover:text-gray-800"
@@ -63,12 +63,12 @@ export default function SignInPage() {
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-lg p-8 shadow-lg">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center font-shippori-antique">
+        <div className="bg-white rounded-lg p-6 md:p-8 shadow-lg">
+          <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4 md:mb-6 text-center font-shippori-antique">
             {isLogin ? "Welcome Back" : "Create Account"}
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
             {!isLogin && (
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 font-shippori-antique">
@@ -80,7 +80,7 @@ export default function SignInPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent font-shippori-antique"
+                  className="w-full px-3 md:px-4 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent font-shippori-antique text-sm md:text-base"
                   placeholder="Enter your full name"
                   required={!isLogin}
                 />
@@ -97,7 +97,7 @@ export default function SignInPage() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent font-shippori-antique"
+                className="w-full px-3 md:px-4 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent font-shippori-antique text-sm md:text-base"
                 placeholder="Enter your phone number"
                 required
               />
@@ -113,7 +113,7 @@ export default function SignInPage() {
                 name="otp"
                 value={formData.otp}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent font-shippori-antique"
+                className="w-full px-3 md:px-4 py-2 md:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-800 focus:border-transparent font-shippori-antique text-sm md:text-base"
                 placeholder="Enter OTP"
                 required
               />
@@ -123,7 +123,7 @@ export default function SignInPage() {
              <div className="flex items-center justify-center">
                <button
                  type="button"
-                 className="text-sm text-gray-600 hover:text-gray-800 font-shippori-antique"
+                 className="text-xs md:text-sm text-gray-600 hover:text-gray-800 font-shippori-antique"
                >
                  Send OTP
                </button>
@@ -134,7 +134,7 @@ export default function SignInPage() {
              <div className="flex items-center justify-center">
                <button
                  type="button"
-                 className="text-sm text-gray-600 hover:text-gray-800 font-shippori-antique"
+                 className="text-xs md:text-sm text-gray-600 hover:text-gray-800 font-shippori-antique"
                >
                  Send OTP
                </button>
@@ -143,14 +143,14 @@ export default function SignInPage() {
 
             <button
               type="submit"
-              className="w-full bg-gray-800 text-white py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors font-shippori-antique"
+              className="w-full bg-gray-800 text-white py-2 md:py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors font-shippori-antique text-sm md:text-base"
             >
               {isLogin ? "Sign In" : "Create Account"}
             </button>
           </form>
 
           {!isLogin && (
-            <p className="mt-6 text-center text-sm text-gray-600 font-shippori-antique">
+            <p className="mt-4 md:mt-6 text-center text-xs md:text-sm text-gray-600 font-shippori-antique">
               By creating an account, you agree to our{" "}
               <a href="#" className="text-gray-800 hover:underline">Terms of Service</a>{" "}
               and{" "}
@@ -160,9 +160,10 @@ export default function SignInPage() {
         </div>
 
         {/* Back to Home Link */}
-        <div className="text-center mt-8">
-          <Link href="/" className="text-gray-800 hover:text-gray-600 transition-colors flex items-center justify-center space-x-2 font-shippori-antique">
-            <ChevronLeft size={20} />
+        <div className="text-center mt-6 md:mt-8">
+          <Link href="/" className="text-gray-800 hover:text-gray-600 transition-colors flex items-center justify-center space-x-2 font-shippori-antique text-sm md:text-base">
+            <ChevronLeft size={18} className="md:hidden" />
+            <ChevronLeft size={20} className="hidden md:block" />
             <span>Back to Home</span>
           </Link>
         </div>
