@@ -271,8 +271,10 @@ export default function ProfilePage() {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <User size={28} className="text-gray-400 md:hidden" />
-                        <User size={32} className="text-gray-400 hidden md:block" />
+                        <>
+                          <User size={28} className="text-gray-400 md:hidden" />
+                          <User size={32} className="text-gray-400 hidden md:block" />
+                        </>
                       )}
                     </div>
                     {userData.profilePicture && (
@@ -333,8 +335,10 @@ export default function ProfilePage() {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-4 sm:space-y-0">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-800 rounded-full flex items-center justify-center">
-                    <CreditCard className="text-white" size={20} />
-                    <CreditCard className="text-white hidden md:block" size={24} />
+                    <>
+                      <CreditCard className="text-white" size={20} />
+                      <CreditCard className="text-white hidden md:block" size={24} />
+                    </>
                   </div>
                   <div>
                     <p className="text-xl md:text-2xl font-bold text-gray-800 font-shippori-antique">{userData.remainingCredits}</p>
@@ -365,8 +369,10 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
                 <div className="flex items-center space-x-3">
-                  <Calendar className="text-gray-600" size={20} />
-                  <Calendar className="text-gray-600 hidden md:block" size={24} />
+                  <>
+                    <Calendar className="text-gray-600" size={20} />
+                    <Calendar className="text-gray-600 hidden md:block" size={24} />
+                  </>
                   <div>
                     <p className="text-xl md:text-2xl font-bold text-gray-800 font-shippori-antique">{bookingHistory.length}</p>
                     <p className="text-xs md:text-sm text-gray-600 font-shippori-antique">Total Bookings</p>
@@ -376,8 +382,10 @@ export default function ProfilePage() {
               
               <div className="bg-white rounded-lg shadow-sm p-4 md:p-6">
                 <div className="flex items-center space-x-3">
-                  <Receipt className="text-gray-600" size={20} />
-                  <Receipt className="text-gray-600 hidden md:block" size={24} />
+                  <>
+                    <Receipt className="text-gray-600" size={20} />
+                    <Receipt className="text-gray-600 hidden md:block" size={24} />
+                  </>
                   <div>
                     <p className="text-xl md:text-2xl font-bold text-gray-800 font-shippori-antique">{transactionHistory.length}</p>
                     <p className="text-xs md:text-sm text-gray-600 font-shippori-antique">Transactions</p>
@@ -387,8 +395,10 @@ export default function ProfilePage() {
               
               <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 sm:col-span-2 lg:col-span-1">
                 <div className="flex items-center space-x-3">
-                  <CreditCard className="text-gray-600" size={20} />
-                  <CreditCard className="text-gray-600 hidden md:block" size={24} />
+                  <>
+                    <CreditCard className="text-gray-600" size={20} />
+                    <CreditCard className="text-gray-600 hidden md:block" size={24} />
+                  </>
                   <div>
                     <p className="text-xl md:text-2xl font-bold text-gray-800 font-shippori-antique">Premium</p>
                     <p className="text-xs md:text-sm text-gray-600 font-shippori-antique">Current Plan</p>
